@@ -20,12 +20,13 @@ public function rulesRecap()
 
 public function getCountSakit($id_rs, $date){
     $count=0;
-    $date1 = str_replace('-', '/', $date);
-    $yesterday = date('yy-m-d',strtotime($date1 . "-1 days"));
+    //$date1 = str_replace('-', '/', $date);
+    //$yesterday = date('yy-m-d',strtotime($date1 . "-1 days"));
     $this->db->where('id_rs', $id_rs);
     //$this->db->where('id_rs','5eb6850839508');
     $this->db->where('status_recap', '0');
-    $this->db->where('date_recap', $yesterday );
+    //$this->db->where('date_recap', $yesterday );
+    $this->db->order_by('date_recap', 'DESC');
     $this->db->select("amount_recap");
     $this->db->from('dbd_recap');
     $query = $this->db->get();
@@ -70,11 +71,12 @@ public function getCountSakit($id_rs, $date){
 
 public function getCountSembuh($id_rs, $date){
     $count=0;
-    $date1 = str_replace('-', '/', $date);
-    $yesterday = date('yy-m-d',strtotime($date1 . "-1 days"));
+    //$date1 = str_replace('-', '/', $date);
+    //$yesterday = date('yy-m-d',strtotime($date1 . "-1 days"));
     $this->db->where('id_rs', $id_rs);
     $this->db->where('status_recap', '1');
-    $this->db->where('date_recap', $yesterday );
+    //$this->db->where('date_recap', $yesterday );
+    $this->db->order_by('date_recap', 'DESC');
     $this->db->select("amount_recap");
     $this->db->from('dbd_recap');
     $query = $this->db->get();
@@ -117,11 +119,12 @@ public function getCountSembuh($id_rs, $date){
 
 public function getCountDie($id_rs, $date){
     $count=0;
-    $date1 = str_replace('-', '/', $date);
-    $yesterday = date('yy-m-d',strtotime($date1 . "-1 days"));
+    //$date1 = str_replace('-', '/', $date);
+    //$yesterday = date('yy-m-d',strtotime($date1 . "-1 days"));
     $this->db->where('id_rs', $id_rs);
     $this->db->where('status_recap', '2');
-    $this->db->where('date_recap', $yesterday );
+    //$this->db->where('date_recap', $yesterday );
+    $this->db->order_by('date_recap', 'DESC');
     $this->db->select("amount_recap");
     $this->db->from('dbd_recap');
     $query = $this->db->get();

@@ -1,130 +1,122 @@
 <template lang="html">
-<div>
-<vs-row vs-w="12"vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:row;margin:10px;">
+  <div>
+    <vs-row vs-w="12"vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:row;margin:10px;">
+      <h3>Data Penanganan Penyakit DBD</h3>
+      <vs-button  color="danger" type="flat" v-on:click="logout();" 
+        style="position: absolute; top: 10px; right: 10px;"> 
+        Logout 
+      </vs-button>
+    </vs-row>
 
-<h3>Data Penanganan Penyakit DBD</h3>
+    <vs-row vs-w="12"  vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:column;">
+      <vs-col vs-type="flex" vs-justify="center" vs-lg="12" vs-sm="12" vs-xs="12">
+        <vs-tabs alignment="fixed" >
+          <vs-tab label="Perbarui Data">
+            <vs-row vs-w="12"> 
+              <div class="con-tab-ejemplo" style="width:80%; margin:auto;">
+                <div>
+                  <vs-table search v-model="selected" :data="Cases">
+                    <template slot="header">
+                      <h3>
+                        Data Kasus
+                      </h3>
+                    </template>
+                    <template slot="thead">
+                      <vs-th>
+                        Nomor Rekam Medis
+                      </vs-th>
+                      <vs-th>
+                        Umur
+                      </vs-th>
+                      <vs-th>
+                        Gender
+                      </vs-th>
+                      <vs-th>
+                        Status
+                      </vs-th>
+                    </template>
 
-<vs-button  v-on:click="logout();" style="position: absolute; top: 0px; right: 30px;" color="#11C117" > Logout </vs-button>
-</vs-row>
- <vs-row vs-w="12"  vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:column;">
-     <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="4">
-  <div class="">
-      
-    <vs-tabs alignment="center" >
-      <vs-tab label="Perbarui Data" style="max-width=600px;">
-        <vs-row vs-w="6"> 
-        <div class="con-tab-ejemplo" style="max-width=600px;">
-         <div>
-    <vs-table
-        search
-      v-model="selected"
-      
-      :data="Cases">
-      <template slot="header">
-        <h3>
-          Data Kasus
-        </h3>
-      </template>
-      <template slot="thead">
-        <vs-th>
-          Nomor Rekam Medis
-        </vs-th>
-        <vs-th>
-          Umur
-        </vs-th>
-        <vs-th>
-          Gender
-        </vs-th>
-        <vs-th>
-          Status
-        </vs-th>
-      </template>
+                    <template slot-scope="{data}">
+                      <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+                        <vs-td :data="data[indextr].record_case">
+                            <vs-input v-if="update==data[indextr].id_case" style=" max-width: 200px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].record_case"/>
+                              <p v-else  > {{data[indextr].record_case}}</p>
+                            
+                        </vs-td>
 
-      <template slot-scope="{data}">
-        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
-          <vs-td :data="data[indextr].record_case">
-               <vs-input v-if="update==data[indextr].id_case" style=" max-width: 200px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].record_case"/>
-                <p v-else  > {{data[indextr].record_case}}</p>
-               
-          </vs-td>
+                        <vs-td :data="data[indextr].age_case">
+                            <vs-input  v-if="update==data[indextr].id_case" style=" max-width: 75px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].age_case"/>  
+                            <p  v-else > {{ data[indextr].age_case}}</p>
+                              
+                        </vs-td>
 
-          <vs-td :data="data[indextr].age_case">
-              <vs-input  v-if="update==data[indextr].id_case" style=" max-width: 75px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].age_case"/>  
-              <p  v-else > {{ data[indextr].age_case}}</p>
-                
-          </vs-td>
+                        <vs-td :data="data[indextr].gender_case">
+                            <vs-select style=" max-width: 100px!important;"  v-if="update==data[indextr].id_case" 
+                            class="selectExample"
+                            v-model="selected.gender_case"
+                            >
+                            <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options1" />
+                            </vs-select>
+                            <!-- <vs-input  v-if="update==data[indextr].id_case" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].gender_case"/>   -->
+                            <p  v-else > {{ genders[data[indextr].gender_case]}}</p>
+                              
+                        </vs-td>
 
-          <vs-td :data="data[indextr].gender_case">
-              <vs-select style=" max-width: 100px!important;"  v-if="update==data[indextr].id_case" 
-              class="selectExample"
-              v-model="selected.gender_case"
-              >
-              <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options1" />
+                        <vs-td :data="data[indextr].status_case">
+                            <vs-select style=" max-width: 100px!important;"  v-if="update==data[indextr].id_case" 
+                            class="selectExample"
+                            v-model="selected.status_case"
+                            >
+                            <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options2" />
+                            </vs-select>
+                            <!-- <vs-input  v-if="update==data[indextr].id_case" style=" max-width: 200px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].status_case"/> -->
+                            <p v-else > {{statuses[data[indextr].status_case]}}</p>
+                            
+                        </vs-td>
+                        <vs-td :data="data[indextr].id_case">
+                          <vs-button  v-if="update==data[indextr].id_case" color="success" v-on:click="saved();" style="width:10vh;"> save </vs-button>
+                          <vs-button v-else color="success" type="flat" v-on:click="updated(data[indextr].id_case);" style="width:10vh;"> update </vs-button>
+                          <!-- <vs-button color="#11C117" v-on:click="updated(data[indextr].id);"> update </vs-button> -->
+                        </vs-td>
+                      </vs-tr>
+                    </template>
+                  </vs-table>
+                </div>
+                <div>
+                  <vs-button style="width:100%" v-on:click="rekap();" color="success" > Rekap </vs-button>
+                </div>
+              </div>
+            </vs-row>
+          </vs-tab>
+
+          <vs-tab label="Masukkan Data Baru" alignment="fixed">
+            <div class="con-tab-ejemplo">
+              <vs-input class="inputx" v-model="record_case"  placeholder="Nomor rekam medis" label="Nomor rekam medis" style="width:500px; margin:auto;" /> 
+              <vs-select style="width:500px; margin:auto;"
+                class="selectExample" v-model="gender_case" label="Gender Kasus" >
+                <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options1" />
               </vs-select>
-               <!-- <vs-input  v-if="update==data[indextr].id_case" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].gender_case"/>   -->
-              <p  v-else > {{ genders[data[indextr].gender_case]}}</p>
-                
-          </vs-td>
+              <vs-input class="inputx" v-model="age_case" placeholder="Umur pasien" label="umur pasien" style="width:500px; margin:auto;" />
+              <br>
+              <div style="text-align:center;">
+                <vs-button @click="popupActivo=true" color="primary" type="border" style="width:15vh;">Import</vs-button>
+                <vs-button v-on:click="saveone();" color="success" style="width:20vh;" > simpan </vs-button>
+                <vs-popup class="holamundo"  title="Import Kasus" :active.sync="popupActivo">
+                  <label>File
+                    <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                  </label>
+                  <button v-on:click="ImportCase()">Submit</button>
+                  <div class="centerx">
+                  </div>
+                </vs-popup> 
+              </div>
 
-          <vs-td :data="data[indextr].status_case">
-              <vs-select style=" max-width: 100px!important;"  v-if="update==data[indextr].id_case" 
-              class="selectExample"
-              v-model="selected.status_case"
-              >
-              <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options2" />
-              </vs-select>
-              <!-- <vs-input  v-if="update==data[indextr].id_case" style=" max-width: 200px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].status_case"/> -->
-              <p v-else > {{statuses[data[indextr].status_case]}}</p>
-              
-          </vs-td>
-          <vs-td :data="data[indextr].id_case">
-            <vs-button  v-if="update==data[indextr].id_case" color="#11C117" v-on:click="saved();"> save </vs-button>
-            <vs-button v-else color="#11C117" v-on:click="updated(data[indextr].id_case);"> update </vs-button>
-            <!-- <vs-button color="#11C117" v-on:click="updated(data[indextr].id);"> update </vs-button> -->
-          </vs-td>
-        </vs-tr>
-      </template>
-    </vs-table>
-   <!-- <pre> {{ update}}</pre>
-    <pre>{{ selected }}</pre> -->
-</div>
-<div>
-<vs-button style="width:500px" v-on:click="rekap();" color="#11C117" > Rekap </vs-button>
-</div>
-        </div>
-          </vs-row>
-      </vs-tab>
-      <vs-tab label="Masukkan Data Baru" style="max-width=600px;">
-        <div class="con-tab-ejemplo" style="max-width=600px;">
-      <vs-input class="inputx" v-model="record_case"  placeholder="Nomor rekam medis" label="Nomor rekam medis" /> 
-      <vs-select style=" max-width: 200px!important;"
-              class="selectExample"
-              v-model="gender_case"
-              label="Gender Kasus"
-              >
-              <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options1" />
-      </vs-select>
-      <vs-input class="inputx" v-model="age_case" placeholder="Umur pasien" label="umur pasien" />
-      <vs-button v-on:click="saveone();" color="#11C117"> simpan </vs-button>
-        <vs-button @click="popupActivo=true" color="primary" type="border">Import</vs-button>
-    <vs-popup class="holamundo"  title="Import Kasus" :active.sync="popupActivo">
-       <label>File
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-      </label>
-        <button v-on:click="ImportCase()">Submit</button>
-     <div class="centerx">
-     </div>
-    </vs-popup>
-        </div>
-      </vs-tab>
-    </vs-tabs>
+            </div>
+          </vs-tab>
+        </vs-tabs>
+      </vs-col>
+    </vs-row>
   </div>
-  </vs-col>
- </vs-row>
- <!-- <vs-row vs-w="12"vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:row;margin:10px;">
-   
-</vs-row> -->
-</div>
 </template>
 
 

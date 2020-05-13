@@ -1,136 +1,138 @@
 <template lang="html">
-<div>
-<vs-row vs-w="12"vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:row;margin:10px;">
 
-<h3>Data Penanganan Penyakit DBD</h3>
+  <div>
+    <!-- header -->
+    <vs-row vs-w="12"vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:row;margin:10px;">
+      <h3>Data Penanganan Penyakit DBD</h3>
+      <vs-button  color="danger" type="flat" v-on:click="logout();" 
+        style="position: absolute; top: 10px; right: 10px;"> 
+        Logout 
+      </vs-button>
+    </vs-row>
 
-<vs-button  v-on:click="logout();" style="position: absolute; top: 0px; right: 30px;" color="#11C117" > Logout </vs-button>
-</vs-row>
- <vs-row vs-w="12"  vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:column;">
-     <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="4">
-  <div class="">
-      
-    <vs-tabs alignment="center" >
-      <vs-tab label="Perbarui Data" style="max-width=600px;">
-        <vs-row vs-w="6"> 
-        <div class="con-tab-ejemplo" style="max-width=600px;">
-         <div>
-    <vs-table
-        search
-      v-model="selected"
-      
-      :data="RumahSakits">
-      <template slot="header">
-        <h3>
-          Data Rumah Sakit
-        </h3>
-      </template>
-      <template slot="thead">
-        <vs-th>
-          Nama
-        </vs-th>
-        <vs-th>
-          Nomor Telepon
-        </vs-th>
-        <vs-th>
-          Email
-        </vs-th>
-        <vs-th>
-          Alamat
-        </vs-th>
-        <vs-th>
-          Kode Kabupaten
-        </vs-th>
-         <vs-th>
-          Latitude
-        </vs-th>
-         <vs-th>
-          Longitude
-        </vs-th>
-      </template>
+    <vs-row vs-w="12"  vs-align="center" vs-justify="center" class="ijasah" style="flex-direction:column;">
+      <vs-col vs-type="flex" vs-justify="center" vs-lg="12" vs-sm="12" vs-xs="12">
+        <vs-tabs alignment="fixed" >
+          <vs-tab label="Perbarui Data">
+            <vs-row vs-w="12"> 
+              <div class="con-tab-ejemplo" style="margin:auto;">
+                <div>
+                  <vs-table search v-model="selected" :data="RumahSakits">
+                    <template slot="header">
+                      <h3>
+                        Data Rumah Sakit
+                      </h3>
+                    </template>
 
-      <template slot-scope="{data}">
-        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
-          <vs-td :data="data[indextr].name_rs">
-               <vs-input v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].name_rs"/>
-                <p v-else  > {{data[indextr].name_rs}}</p>
-               
-          </vs-td>
+                    <template slot="thead">
+                      <vs-th>
+                        Nama
+                      </vs-th>
+                      <vs-th>
+                        Nomor Telepon
+                      </vs-th>
+                      <vs-th>
+                        Email
+                      </vs-th>
+                      <vs-th>
+                        Alamat
+                      </vs-th>
+                      <vs-th>
+                        Kode Kabupaten
+                      </vs-th>
+                      <vs-th>
+                        Latitude
+                      </vs-th>
+                      <vs-th>
+                        Longitude
+                      </vs-th>
+                    </template>
 
-          <vs-td :data="data[indextr].handphone_rs">
-               <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].handphone_rs"/>  
-                <p  v-else > {{data[indextr].handphone_rs}}</p>
-                
-          </vs-td>
+                    <template slot-scope="{data}">
+                      <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+                        <vs-td :data="data[indextr].name_rs">
+                            <vs-input v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].name_rs"/>
+                              <p v-else  > {{data[indextr].name_rs}}</p>
+                            
+                        </vs-td>
 
-          <vs-td :data="data[indextr].email_rs">
-              <vs-input v-if="update==data[indextr].id_rs" style=" max-width: 200px!important;"  class="inputrs" placeholder="Disabled" v-model="data[indextr].email_rs"/>
-              <p  v-else > {{data[indextr].email_rs}}</p>
-                
-          </vs-td>
+                        <vs-td :data="data[indextr].handphone_rs">
+                            <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].handphone_rs"/>  
+                              <p  v-else > {{data[indextr].handphone_rs}}</p>
+                              
+                        </vs-td>
 
-          <vs-td :data="data[indextr].address_rs">
-                <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 200px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].address_rs"/>
-              <p v-else > {{data[indextr].address_rs}}</p>
-              
-          </vs-td>
-          <vs-td :data="data[indextr].region_rs">
-                <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 50px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].region_rs"/>
-              <p v-else > {{data[indextr].region_rs}}</p>
-              
-          </vs-td>
-          <vs-td :data="data[indextr].lat_rs">
-                <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].lat_rs"/>
-              <p v-else > {{data[indextr].lat_rs}}</p>
-              
-          </vs-td>
-          <vs-td :data="data[indextr].lon_rs">
-                <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].lon_rs"/>
-              <p v-else > {{data[indextr].lon_rs}}</p>
-              
-          </vs-td>
-          <vs-td :data="data[indextr].id_rs">
-            <vs-button  v-if="update==data[indextr].id_rs" color="#11C117" v-on:click="saved();"> save </vs-button>
-            <vs-button v-else color="#11C117" v-on:click="updated(data[indextr].id_rs);"> update </vs-button>
-            <!-- <vs-button color="#11C117" v-on:click="updated(data[indextr].id);"> update </vs-button> -->
-          </vs-td>
-        </vs-tr>
-      </template>
-    </vs-table>
-   <!-- <pre> {{ update}}</pre>
-    <pre>{{ selected }}</pre> -->
-</div>
-        </div>
-          </vs-row>
-      </vs-tab>
-      <vs-tab label="Masukkan Data Baru" style="max-width=600px;">
-        <div class="con-tab-ejemplo" style="max-width=600px;">
-      <vs-input class="inputx" v-model="kode_rs"  placeholder="kode rumah sakit" label="kode rumah sakit" /> 
-      <vs-input class="inputx" v-model="name_rs"  placeholder="nama rumah sakit" label="nama rumah sakit" /> 
-      <vs-input class="inputx" v-model="email_rs" placeholder="email rumah sakit" label="email rumah sakit" />
-      <vs-input class="inputx" v-model="handphone_rs" placeholder="telepon rumah sakit" label=" telepon rumah sakit"/> 
-      <vs-input class="inputx" v-model="address_rs" placeholder="alamat rumah sakit" label=" alamat rumah sakit" />
-      <vs-input class="inputx" v-model="region_rs" placeholder="kode kabupaten" label="kode kabupaten"  /> 
-      <vs-input class="inputx" v-model="lat_rs" placeholder="latitude" label="latitude" />
-      <vs-input class="inputx" v-model="lon_rs" placeholder="longitude" label="longitude" />
-      <vs-button v-on:click="saveone();" color="#11C117"> simpan </vs-button>
-        <vs-button @click="popupActivo=true" color="primary" type="border">Import</vs-button>
-    <vs-popup class="holamundo"  title="Import RS" :active.sync="popupActivo">
-       <label>File
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-      </label>
-        <button v-on:click="ImportRS()">Submit</button>
-     <!-- <div class="centerx">
-    <vs-upload action="importrs()"  />
-     </div> -->
-    </vs-popup>
-        </div>
-      </vs-tab>
-    </vs-tabs>
+                        <vs-td :data="data[indextr].email_rs">
+                            <vs-input v-if="update==data[indextr].id_rs" style=" max-width: 200px!important;"  class="inputrs" placeholder="Disabled" v-model="data[indextr].email_rs"/>
+                            <p  v-else > {{data[indextr].email_rs}}</p>
+                              
+                        </vs-td>
+
+                        <vs-td :data="data[indextr].address_rs">
+                              <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 200px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].address_rs"/>
+                            <p v-else > {{data[indextr].address_rs}}</p>
+                            
+                        </vs-td>
+                        <vs-td :data="data[indextr].region_rs">
+                              <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 50px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].region_rs"/>
+                            <p v-else > {{data[indextr].region_rs}}</p>
+                            
+                        </vs-td>
+                        <vs-td :data="data[indextr].lat_rs">
+                              <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].lat_rs"/>
+                            <p v-else > {{data[indextr].lat_rs}}</p>
+                            
+                        </vs-td>
+                        <vs-td :data="data[indextr].lon_rs">
+                              <vs-input  v-if="update==data[indextr].id_rs" style=" max-width: 100px!important;" class="inputrs" placeholder="Disabled" v-model="data[indextr].lon_rs"/>
+                            <p v-else > {{data[indextr].lon_rs}}</p>
+                            
+                        </vs-td>
+                        <vs-td :data="data[indextr].id_rs">
+                          <vs-button  v-if="update==data[indextr].id_rs" color="success" v-on:click="saved();" style="width:10vh;"> save </vs-button>
+                          <vs-button v-else color="success" v-on:click="updated(data[indextr].id_rs);" style="width:10vh;" type="flat"> update </vs-button>
+                          <!-- <vs-button color="#11C117" v-on:click="updated(data[indextr].id);"> update </vs-button> -->
+                        </vs-td>
+                      </vs-tr>
+                    </template>
+                  </vs-table>
+                </div>
+              </div>
+            </vs-row>
+          </vs-tab>
+
+          <vs-tab label="Masukkan Data Baru" alignment="fixed" >
+            <vs-row vs-w="12">
+              <div class="con-tab-ejemplo" style="margin:auto;">
+                <vs-input class="inputx" v-model="kode_rs"  placeholder="kode rumah sakit" label="Kode rumah sakit" style="width:1000px" /> 
+                <vs-input class="inputx" v-model="name_rs"  placeholder="nama rumah sakit" label="Nama rumah sakit" style="width:1000px" /> 
+                <vs-input class="inputx" v-model="email_rs" placeholder="email rumah sakit" label="Email rumah sakit" style="width:1000px" />
+                <vs-input class="inputx" v-model="handphone_rs" placeholder="telepon rumah sakit" label="Telepon rumah sakit" style="width:1000px" /> 
+                <vs-input class="inputx" v-model="address_rs" placeholder="alamat rumah sakit" label="Alamat rumah sakit" style="width:1000px" />
+                <vs-input class="inputx" v-model="region_rs" placeholder="kode kabupaten" label="Kode kabupaten" style="width:1000px" /> 
+                <vs-input class="inputx" v-model="lat_rs" placeholder="latitude" label="Latitude" style="width:1000px" />
+                <vs-input class="inputx" v-model="lon_rs" placeholder="longitude" label="Longitude" style="width:1000px" />
+                <br>
+                <div style="float:right;">
+                  <vs-button @click="popupActivo=true" color="primary" type="border" style="width:15vh;">Import</vs-button>
+                  <vs-button v-on:click="saveone();" color="success" style="width:20vh;" > simpan </vs-button>
+                  <vs-popup class="holamundo"  title="Import RS" :active.sync="popupActivo">
+                    <label>File
+                      <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                    </label>
+                    <button v-on:click="ImportRS()">Submit</button>
+                    <!-- <div class="centerx">
+                    <vs-upload action="importrs()"  />
+                    </div> -->
+                  </vs-popup>
+                </div>
+              </div>
+            </vs-row>
+          </vs-tab>
+        </vs-tabs>
+      </vs-col>
+    </vs-row> 
   </div>
-  </vs-col>
- </vs-row>
-</div>
 </template>
 
 
